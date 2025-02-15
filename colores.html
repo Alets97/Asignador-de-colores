@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asignador de Color Aleatorio</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .color-box {
+            width: 200px;
+            height: 200px;
+            border: 2px solid #000;
+            margin-bottom: 20px;
+        }
+        .color-code {
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div class="color-box" id="colorBox"></div>
+    <div class="color-code" id="colorCode"></div>
+    <script>
+        const colors = ['#0000FF', '#FF0000', '#FFFF00', '#000000', '#FFFFFF', '#008000', '#FFA500', '#800080']; // Azul, Rojo, Amarillo, Negro, Blanco, Verde, Naranja, Morado
+        const colorCounts = new Array(colors.length).fill(0); // Inicializa un array para contar las asignaciones
+        const maxAssignments = 180; // Máximo de personas
+
+        function getRandomColor() {
+            // Filtra los colores que aún tienen asignaciones disponibles
+            const availableColors = colors.filter((color, index) => colorCounts[index] < maxAssignments / colors.length);
+            
+            if (availableColors.length === 0) {
+                return null; // No hay colores disponibles
+            }
+
+            // Selecciona un color aleatorio de los disponibles
+            const randomIndex = Math.floor(Math.random() * availableColors.length);
+            const assignedColor = availableColors[randomIndex];
+            
+            // Incrementa el contador para el color asignado
+            colorCounts[colors.indexOf(assignedColor)]++;
+            
+            return assignedColor;
+        }
+
+        const assignedColor = getRandomColor();
+        
+        if (assignedColor) {
+            document.getElementById('colorBox').style.backgroundColor = assignedColor;
+            document.getElementById('colorCode').textContent = `Color asignado: ${assignedColor}`;
+        } else {
+            document.getElementById('colorCode').textContent = 'Todos los colores han sido asignados.';
+        }
+    </script>
+</body>
+</html>
